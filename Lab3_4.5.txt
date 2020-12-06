@@ -1,0 +1,14 @@
+-- A/B
+set transaction isolation level SERIALIZABLE;
+ --A
+select plec from pracownicy where nazwisko = 'Dolny';
+update pracownicy set plec = 'Inna' where nazwisko = 'Dolny';
+ --B
+update pracownicy set plec = 'Inna' where nazwisko = 'Dolny';
+commit;
+ --A
+commit;
+
+ --B
+Error report -
+ORA-08177: can't serialize access for this transaction
